@@ -1,0 +1,157 @@
+*clips-analyzer.txt*    CLIPS Log Analyzer for Neovim    *clips-analyzer*
+
+Author: Tim Wendt
+Version: 1.0.0
+
+==============================================================================
+CONTENTS                                           *clips-analyzer-contents*
+
+1. Introduction ........................... |clips-analyzer-introduction|
+2. Installation ........................... |clips-analyzer-installation|
+3. Commands ............................... |clips-analyzer-commands|
+4. Mappings ............................... |clips-analyzer-mappings|
+5. Search Syntax .......................... |clips-analyzer-search|
+6. Configuration .......................... |clips-analyzer-configuration|
+7. Examples ............................... |clips-analyzer-examples|
+
+==============================================================================
+1. INTRODUCTION                               *clips-analyzer-introduction*
+
+clips-analyzer.nvim is a powerful plugin for analyzing CLIPS expert system
+logs. It provides advanced search capabilities, fact relationship analysis,
+timeline visualization, and fact combination features.
+
+Features:
+- Advanced search with multiple syntax types
+- Fact history and lifecycle analysis  
+- Relationship detection between facts
+- Timeline visualization
+- Multi-fact selection and combination
+- Fast parsing of large CLIPS logs
+
+==============================================================================
+2. INSTALLATION                               *clips-analyzer-installation*
+
+Using vim-plug: >
+    Plug 'timwendt/clips-analyzer.nvim'
+<
+
+Using packer.nvim: >
+    use 'timwendt/clips-analyzer.nvim'
+<
+
+Using lazy.nvim: >
+    {
+      'timwendt/clips-analyzer.nvim',
+      config = function()
+        require('clips-analyzer').setup()
+      end
+    }
+<
+
+==============================================================================
+3. COMMANDS                                       *clips-analyzer-commands*
+
+                                                           *:ClipsSearch*
+:ClipsSearch
+    Open the main search interface for analyzing CLIPS logs.
+
+                                                          *:ClipsAnalyze*
+:ClipsAnalyze
+    Alias for :ClipsSearch.
+
+                                                          *:ClipsDetails*
+:ClipsDetails
+    Show detailed analysis for the fact under the cursor.
+
+==============================================================================
+4. MAPPINGS                                       *clips-analyzer-mappings*
+
+Default mappings can be disabled by setting: >
+    let g:clips_analyzer_no_mappings = 1
+<
+
+Global mappings:
+    <leader>cs    Open search window
+    <leader>ca    Open analyzer window
+
+CLIPS file mappings:
+    gd            Show fact details under cursor
+
+Search window mappings:
+    <Enter>       View fact details
+    <Space>       Select/deselect fact for combination
+    c             View combined details of selected facts
+    x             Clear all selections
+    /             Start new search
+    ?             Show help
+    <Esc>         Close window
+
+Detail window mappings:
+    <Esc>         Close window
+    t             View timeline
+    s             Search for similar facts
+    <Enter>       Jump to line in original file
+    1-9           Quick access to individual facts (combined view)
+
+==============================================================================
+5. SEARCH SYNTAX                                    *clips-analyzer-search*
+
+Basic Searches~
+    slot:value              Find facts where 'slot' contains 'value'
+    slot=value              Alternative syntax for slot:value
+    template:name           Find all facts of template 'name'
+
+Multi-Template Searches~
+    :[a,b,c]                Find facts of templates a, b, or c
+    template:[a,b],text     Find templates a,b containing 'text'
+
+Fact History Searches~
+    fact:{template:name, slot:value}     Facts that ever had value
+    fact:{template:name, slot:!value}    Facts that never had value
+
+Component Searches~
+    slot:name               Find facts that have a 'name' slot
+    value:text              Find facts with any slot containing 'text'
+
+Text Search~
+    text                    Simple text search in fact content
+
+==============================================================================
+6. CONFIGURATION                             *clips-analyzer-configuration*
+
+Setup function: >
+    require('clips-analyzer').setup({
+      -- Configuration options will be added in future versions
+    })
+<
+
+To disable default mappings: >
+    let g:clips_analyzer_no_mappings = 1
+<
+
+==============================================================================
+7. EXAMPLES                                       *clips-analyzer-examples*
+
+Find failed preconditions: >
+    fact:{template:pddl-action-precondition, state:!PRECONDITION-SAT}
+<
+
+Find multiple template types: >
+    :[task,goal,action]
+<
+
+Combined template and content search: >
+    template:[task,goal],robot3
+<
+
+Find facts with specific slot: >
+    robot:ROBOT3
+<
+
+Find facts that never failed: >
+    fact:{template:action, status:!FAILED}
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:

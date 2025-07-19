@@ -1,0 +1,32 @@
+{
+  "name": "clips-analyzer.nvim",
+  "version": "1.0.0",
+  "description": "A powerful Neovim plugin for analyzing CLIPS expert system logs",
+  "author": "Tim Wendt",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timwendt/clips-analyzer.nvim"
+  },
+  "keywords": [
+    "neovim",
+    "nvim",
+    "plugin",
+    "clips",
+    "expert-system",
+    "log-analysis",
+    "fact-analysis"
+  ],
+  "engines": {
+    "nvim": ">=0.5.0"
+  },
+  "dependencies": {},
+  "files": [
+    "plugin/",
+    "lua/",
+    "doc/",
+    "syntax/",
+    "ftdetect/",
+    "README.md"
+  ]
+}
