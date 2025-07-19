@@ -33,16 +33,16 @@ Features:
 2. INSTALLATION                               *clips-analyzer-installation*
 
 Using vim-plug: >
-    Plug 'timwendt/clips-analyzer.nvim'
+    Plug 'techtasie/clips-analyzer.nvim'
 <
 
 Using packer.nvim: >
-    use 'timwendt/clips-analyzer.nvim'
+    use 'techtasie/clips-analyzer.nvim'
 <
 
 Using lazy.nvim: >
     {
-      'timwendt/clips-analyzer.nvim',
+      'techtasie/clips-analyzer.nvim',
       config = function()
         require('clips-analyzer').setup()
       end

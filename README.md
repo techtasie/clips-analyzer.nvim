@@ -18,7 +18,7 @@ A powerful Neovim plugin for analyzing CLIPS expert system logs. Provides advanc
 Add this to your `init.vim` or `init.lua`:
 
 ```vim
-Plug 'timwendt/clips-analyzer.nvim'
+Plug 'techtasie/clips-analyzer.nvim'
 ```
 
 Then run:
@@ -29,14 +29,14 @@ Then run:
 ### Using packer.nvim
 
 ```lua
-use 'timwendt/clips-analyzer.nvim'
+use 'techtasie/clips-analyzer.nvim'
 ```
 
 ### Using lazy.nvim
 
 ```lua
 {
-  'timwendt/clips-analyzer.nvim',
+  'techtasie/clips-analyzer.nvim',
   config = function()
     require('clips-analyzer').setup()
   end
