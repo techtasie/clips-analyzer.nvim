@@ -63,12 +63,14 @@ use 'techtasie/clips-analyzer.nvim'
 |-----|------|--------|
 | `<leader>cs` | Normal | Open search window |
 | `<leader>ca` | Normal | Open analyzer window |
-| `gd` | Normal (CLIPS files) | Show fact details under cursor |
+| `gd` | Normal (CLIPS files) | Show fact details (cursor word → line) |
 
 To disable default mappings, add to your config:
 ```vim
 let g:clips_analyzer_no_mappings = 1
 ```
+
+**Note**: The `gd` mapping intelligently detects fact IDs by first checking the word under the cursor (e.g., `f-123`, `123`), and if no fact ID is found there, it falls back to parsing the entire line.
 
 ## Search Syntax
 

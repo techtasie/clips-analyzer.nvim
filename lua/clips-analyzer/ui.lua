@@ -860,13 +860,53 @@ local function get_fact_id_from_line(line)
   return fact_id and tonumber(fact_id) or nil
 end
 
+-- Function to get fact ID under cursor or from line
+local function get_fact_id_under_cursor_or_line()
+  -- Get current cursor position
+  local line_num = vim.api.nvim_win_get_cursor(0)[1]
+  local col_num = vim.api.nvim_win_get_cursor(0)[2]
+  local current_line = vim.api.nvim_get_current_line()
+  
+  -- First, try to get the word under cursor
+  local word_under_cursor = vim.fn.expand('<cword>')
+  
+  -- Check if the word under cursor is a complete fact ID (f-123)
+  local cursor_fact_id = word_under_cursor:match("^f%-(%d+)$")
+  if cursor_fact_id then
+    return tonumber(cursor_fact_id)
+  end
+  
+  -- Check if it's just a number (could be a fact ID)
+  local cursor_number = tonumber(word_under_cursor)
+  if cursor_number then
+    return cursor_number
+  end
+  
+  -- Enhanced: Look for fact ID patterns and check if cursor is specifically on the f-<num> part
+  -- This handles cases where cursor is on 'f' or '-' in 'f-123' but NOT on separators
+  for i = 1, #current_line do
+    local fact_start, fact_end, fact_id = current_line:find("(f%-%d+)", i)
+    if fact_start then
+      -- Check if cursor is within this specific fact ID (1-indexed to 0-indexed conversion)
+      if col_num >= fact_start - 1 and col_num < fact_end then
+        return tonumber(fact_id:match("f%-(%d+)"))
+      end
+      i = fact_end + 1
+    else
+      break
+    end
+  end
+  
+  -- Fall back to parsing the entire line only if cursor detection failed
+  return get_fact_id_from_line(current_line)
+end
+
 -- Function to show fact details when called from log file
 function M.show_fact_details_from_log()
-  local current_line = vim.api.nvim_get_current_line()
-  local fact_id = get_fact_id_from_line(current_line)
+  local fact_id = get_fact_id_under_cursor_or_line()
   
   if not fact_id then
-    vim.notify("No fact ID found on current line", vim.log.levels.WARN)
+    vim.notify("No fact ID found under cursor or on current line", vim.log.levels.WARN)
     return
   end
   
